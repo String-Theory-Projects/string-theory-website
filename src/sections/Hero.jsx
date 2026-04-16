@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import useMediaQuery from '../hooks/useMediaQuery'
+import BackgroundLoopVideo from '../components/BackgroundLoopVideo'
 
 export default function Hero() {
   const isMobile = useMediaQuery('(max-width: 768px)')
+  const videoSrc = isMobile ? '/assets/hero_mobile.mp4' : '/assets/hero_web.mp4'
 
   const scrollToAbout = () => {
     const el = document.getElementById('about')
@@ -11,20 +13,7 @@ export default function Hero() {
 
   return (
     <section className="relative w-full h-screen min-h-[680px] overflow-hidden flex items-center bg-st-dark">
-      <video
-        key={isMobile ? 'mobile' : 'web'}
-        className="video-bg"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-      >
-        <source
-          src={isMobile ? '/assets/hero_mobile.mp4' : '/assets/hero_web.mp4'}
-          type="video/mp4"
-        />
-      </video>
+      <BackgroundLoopVideo key={videoSrc} src={videoSrc} className="video-bg" />
 
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/35 z-[1]" />
 

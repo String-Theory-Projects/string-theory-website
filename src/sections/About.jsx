@@ -1,26 +1,15 @@
 import useMediaQuery from '../hooks/useMediaQuery'
 import { useScrollRevealAll } from '../hooks/useScrollReveal'
+import BackgroundLoopVideo from '../components/BackgroundLoopVideo'
 
 export default function About() {
   const isMobile = useMediaQuery('(max-width: 768px)')
   const containerRef = useScrollRevealAll()
+  const videoSrc = isMobile ? '/assets/about_mobile.mp4' : '/assets/about_web.mp4'
 
   return (
     <section id="about" className="relative w-full min-h-[82vh] flex items-center overflow-hidden" ref={containerRef}>
-      <video
-        key={isMobile ? 'about-mobile' : 'about-web'}
-        className="video-bg"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-      >
-        <source
-          src={isMobile ? '/assets/about_mobile.mp4' : '/assets/about_web.mp4'}
-          type="video/mp4"
-        />
-      </video>
+      <BackgroundLoopVideo key={videoSrc} src={videoSrc} className="video-bg" />
 
       <div className="absolute inset-0 bg-black/65 z-[1]" />
 

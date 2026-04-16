@@ -206,6 +206,25 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  pointer-events: none;
+  -webkit-touch-callout: none;
+}
+
+/* Hide native media chrome where WebKit exposes it (background videos only). */
+.video-bg::-webkit-media-controls {
+  display: none !important;
+}
+
+.video-bg::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+.video-bg::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+.video-bg::-webkit-media-controls-start-playback-button {
+  display: none !important;
 }
 
 /* ──────── Custom Animations ──────── */

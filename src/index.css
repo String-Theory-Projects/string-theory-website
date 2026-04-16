@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+/*
+ * Do not use an unlayered `* { margin; padding }` reset here.
+ * Tailwind v4 places utilities in @layer; unlayered rules override *all* layers,
+ * which zeroes out every padding/margin utility site-wide (cards, gaps via margin, etc.).
+ * Spacing comes from Tailwind Preflight + utilities.
+ */
+
+@theme {
+  --color-st-blue: #2886E2;
+  --color-st-yellow: #F8DA4E;
+  --color-st-red: #E33E33;
+  --color-st-green: #479A5C;
+  --color-st-pink: #EFCCDF;
+  --color-st-light-blue: #C7E3EE;
+  --color-st-black: #1A1A1A;
+  --color-st-white: #FFFFFF;
+  --color-st-dark: #0B0B1A;
+
+  --font-sans: 'Darker Grotesque', sans-serif;
+}
+
+/* ──────── Base ──────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-st-black);
+  background: var(--color-st-white);
+  font-size: 17px;
+  line-height: 1.45;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ──────── Layout system ──────── */
+
+.st-shell {
+  width: min(1320px, 100% - clamp(2.75rem, 6vw, 8.5rem));
+  margin-inline: auto;
+}
+
+/* Wider content band for dense grids (e.g. services) on large displays */
+.st-shell-wide {
+  width: min(90rem, 100% - clamp(2.75rem, 6vw, 8.5rem));
+  margin-inline: auto;
+}
+
+/* Near full-bleed services band — wider cards on large / ultrawide screens */
+.st-shell-services {
+  width: min(120rem, 100% - clamp(1rem, 3.5vw, 2.75rem));
+  margin-inline: auto;
+}
+
+.st-section {
+  padding-block: clamp(7.5rem, 11vw, 12.5rem);
+}
+
+.st-section-lg {
+  padding-block: clamp(8.5rem, 12vw, 14.5rem);
+}
+
+.st-heading-wrap {
+  margin-bottom: clamp(3.75rem, 5.5vw, 6.25rem);
+}
+
+.st-page-header {
+  width: min(62rem, 100%);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.st-section-kicker {
+  display: inline-block;
+  margin-bottom: 1.65rem;
+  font-size: clamp(0.92rem, 1.15vw, 1.08rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.st-copy {
+  font-size: clamp(1.1rem, 1.4vw, 1.35rem);
+  line-height: 1.65;
+  letter-spacing: 0.005em;
+}
+
+.st-copy-prominent {
+  font-size: clamp(1.28rem, 3.9vw, 1.52rem);
+  font-weight: 600;
+  line-height: 1.75;
+  letter-spacing: 0.006em;
+}
+
+@media (max-width: 640px) {
+  .st-copy-prominent {
+    font-size: 1.35rem;
+    line-height: 1.78;
+  }
+}
+
+.st-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: clamp(2rem, 3vw, 3.25rem);
+}
+
+.st-stack > * + * {
+  margin-top: clamp(1.65rem, 2.25vw, 2.5rem);
+}
+
+/* ──────── Buttons (from scratch) ──────── */
+
+.st-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  padding: 0.95rem 2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  border: 2px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.st-btn:focus-visible {
+  outline: 2px solid rgba(40, 134, 226, 0.45);
+  outline-offset: 3px;
+}
+
+.st-btn-primary {
+  color: #fff;
+  background: var(--color-st-blue);
+}
+
+.st-btn-primary:hover {
+  background: #1f78d0;
+  transform: translateY(-1px);
+}
+
+.st-btn-outline-light {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.st-btn-outline-light:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.st-btn-outline-dark {
+  color: var(--color-st-black);
+  border-color: rgba(26, 26, 26, 0.8);
+  background: transparent;
+}
+
+.st-btn-outline-dark:hover {
+  color: #fff;
+  background: var(--color-st-black);
+}
+
+.st-btn-yellow {
+  color: var(--color-st-black);
+  background: var(--color-st-yellow);
+}
+
+.st-btn-yellow:hover {
+  background: #ebca3d;
+  transform: translateY(-1px);
+}
+
+/* ──────── Scrollbar ──────── */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-st-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-st-blue);
+  border-radius: 4px;
+}
+
+/* ──────── Video backgrounds ──────── */
+
+.video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* ──────── Custom Animations ──────── */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(40, 134, 226, 0.4); }
+  50% { box-shadow: 0 0 24px 8px rgba(40, 134, 226, 0.15); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes stagger-up {
+  from { opacity: 0; transform: translateY(30px) rotate(-2deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes bounce-scroll {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ──────── Reveal-on-scroll utility ──────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.88);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ──────── Gallery item hover ──────── */
+
+.gallery-item {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-item:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ──────── Material card image transition ──────── */
+
+.material-img-enter {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+/* ──────── Nav transition ──────── */
+
+.nav-transparent {
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.nav-solid {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ──────── Quote page slider thumb ──────── */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #e2e8f0;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-st-blue);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(40, 134, 226, 0.35);
+  transition: transform 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-st-blue);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(40, 134, 226, 0.35);
+}

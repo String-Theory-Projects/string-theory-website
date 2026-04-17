@@ -5,6 +5,7 @@ import BackgroundLoopVideo from '../components/BackgroundLoopVideo'
 export default function Hero() {
   const isMobile = useMediaQuery('(max-width: 768px)')
   const videoSrc = isMobile ? '/assets/hero_mobile.mp4' : '/assets/hero_web.mp4'
+  const previewSrc = '/assets/hero_web_preview.png'
 
   const scrollToAbout = () => {
     const el = document.getElementById('about')
@@ -13,7 +14,13 @@ export default function Hero() {
 
   return (
     <section className="relative w-full h-screen min-h-[680px] overflow-hidden flex items-center bg-st-dark">
-      <BackgroundLoopVideo key={videoSrc} src={videoSrc} className="video-bg" />
+      <BackgroundLoopVideo
+        key={videoSrc}
+        src={videoSrc}
+        previewSrc={previewSrc}
+        previewAlt=""
+        className="video-bg"
+      />
 
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/35 z-[1]" />
 

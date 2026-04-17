@@ -6,10 +6,17 @@ export default function About() {
   const isMobile = useMediaQuery('(max-width: 768px)')
   const containerRef = useScrollRevealAll()
   const videoSrc = isMobile ? '/assets/about_mobile.mp4' : '/assets/about_web.mp4'
+  const previewSrc = isMobile ? '/assets/about_mobile_preview.png' : '/assets/about_web_preview.png'
 
   return (
     <section id="about" className="relative w-full min-h-[82vh] flex items-center overflow-hidden" ref={containerRef}>
-      <BackgroundLoopVideo key={videoSrc} src={videoSrc} className="video-bg" />
+      <BackgroundLoopVideo
+        key={videoSrc}
+        src={videoSrc}
+        previewSrc={previewSrc}
+        previewAlt=""
+        className="video-bg"
+      />
 
       <div className="absolute inset-0 bg-black/65 z-[1]" />
 

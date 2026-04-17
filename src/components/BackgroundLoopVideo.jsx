@@ -1,15 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  * Muted, inline background loop for mobile + in-app browsers.
  * Programmatic play + attribute hardening; no controls / PiP / AirPlay affordances.
  */
-export default function BackgroundLoopVideo({ src, className }) {
+export default function BackgroundLoopVideo({ src, className, previewSrc, previewAlt = '' }) {
   const ref = useRef(null)
+  const [videoReady, setVideoReady] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
+    setVideoReady(false)
 
     const arm = () => {
       el.muted = true
@@ -19,6 +21,8 @@ export default function BackgroundLoopVideo({ src, className }) {
       el.setAttribute('webkit-playsinline', 'true')
       el.setAttribute('x-webkit-airplay', 'deny')
     }
+
+    const markReady = () => setVideoReady(true)
 
     const tryPlay = () => {
       arm()
@@ -44,6 +48,8 @@ export default function BackgroundLoopVideo({ src, className }) {
     el.addEventListener('loadeddata', tryPlay)
     el.addEventListener('canplay', tryPlay)
     el.addEventListener('canplaythrough', tryPlay)
+    el.addEventListener('loadeddata', markReady)
+    el.addEventListener('playing', markReady)
     document.addEventListener('visibilitychange', onVisible)
     window.addEventListener('pageshow', tryPlay)
 
@@ -62,6 +68,8 @@ export default function BackgroundLoopVideo({ src, className }) {
       el.removeEventListener('loadeddata', tryPlay)
       el.removeEventListener('canplay', tryPlay)
       el.removeEventListener('canplaythrough', tryPlay)
+      el.removeEventListener('loadeddata', markReady)
+      el.removeEventListener('playing', markReady)
       document.removeEventListener('visibilitychange', onVisible)
       window.removeEventListener('pageshow', tryPlay)
       document.removeEventListener('touchstart', unlock, true)
@@ -71,21 +79,32 @@ export default function BackgroundLoopVideo({ src, className }) {
   }, [src])
 
   return (
-    <video
-      ref={ref}
-      className={className}
-      autoPlay
-      loop
-      muted
-      playsInline
-      defaultMuted
-      preload="auto"
-      controls={false}
-      disablePictureInPicture
-      disableRemotePlayback
-      controlsList="nodownload nofullscreen noremoteplayback"
-    >
-      <source src={src} type="video/mp4" />
-    </video>
+    <>
+      {previewSrc && (
+        <img
+          src={previewSrc}
+          alt={previewAlt}
+          aria-hidden="true"
+          className={`${className} transition-opacity duration-500 ${videoReady ? 'opacity-0' : 'opacity-100'}`}
+          draggable={false}
+        />
+      )}
+      <video
+        ref={ref}
+        className={className}
+        autoPlay
+        loop
+        muted
+        playsInline
+        defaultMuted
+        preload="auto"
+        controls={false}
+        disablePictureInPicture
+        disableRemotePlayback
+        controlsList="nodownload nofullscreen noremoteplayback"
+      >
+        <source src={src} type="video/mp4" />
+      </video>
+    </>
   )
 }
